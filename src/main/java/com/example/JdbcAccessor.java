@@ -25,7 +25,7 @@ public class JdbcAccessor {
     }
 
     public void destroy() {
-        jdbcTemplate.execute("drop all objects");
+        jdbcTemplate.execute("delete from numbers");
     }
 
     public void insert(long number) {

@@ -16,6 +16,7 @@ public class Application {
 
     public void stop() {
         jmsAccessor.stop();
+        jdbcAccessor.destroy();
     }
 
     public void handleNumberInput(TextMessage message) throws JMSException {

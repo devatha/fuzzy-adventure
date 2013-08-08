@@ -13,23 +13,38 @@ class LogicTest extends Specification {
     def logic = new Logic()
 
     @Unroll
-    def 'sanity test for primeness of #number'() {
+    def 'test for primeness of #number'() {
         expect:
         logic.isPrime(number)
 
         where:
         number << [2, 3, 5]
     }
+    
+    @Unroll
+    def 'test for non-primeness of #number'() {
+        expect:
+        !logic.isPrime(number)
+
+        where:
+        number << [-23, 0, 1, 4, 9, 15]
+    }
 
     @Unroll
-    def 'sanity test for next prime after #number'() {
+    def 'test for next prime after #number'() {
         expect:
         logic.nextPrimeFrom(number) == next
 
         where:
         number | next
+        -23    | 2
+        0	   | 2
+        1      | 2
         2      | 3
         3      | 5
+        4      | 5
         5      | 7
+        9	   | 11
+        15	   | 17
     }
 }

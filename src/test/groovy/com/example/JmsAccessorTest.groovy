@@ -15,6 +15,7 @@ class JmsAccessorTest extends Specification {
     def numberInputs = []
     def primes = []
     def numberOutputs = []
+    def isPrime = []
 
     void inputs(TextMessage message) {
         numberInputs << message.text
@@ -22,6 +23,7 @@ class JmsAccessorTest extends Specification {
 
     void primes(TextMessage message) {
         primes << message.text
+        isPrime << message.getBooleanProperty("InputWasPrime")
     }
 
     void outputs(TextMessage message) {
@@ -60,5 +62,18 @@ class JmsAccessorTest extends Specification {
 
         then:
         numberOutputs == ['1', '2', '3', '4']
+    }
+    
+    def 'sending to primes works'() {
+        when:
+        accessor.sendToPrimes(1, false)
+        accessor.sendToPrimes(2, true)
+        accessor.sendToPrimes(3, true)
+        accessor.sendToPrimes(4, false)
+        sleep 100
+
+        then:
+        primes == ['1', '2', '3', '4']
+        isPrime == [false, true, true, false]
     }
 }
